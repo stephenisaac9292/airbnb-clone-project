@@ -105,3 +105,39 @@ A Booking is linked to one Property and one User.
 A Review belongs to a User and a Property.
 
 A Payment is associated with one Booking.
+
+
+Feature Breakdown
+User Management
+Allows users to register, log in, and manage their profiles. Users can take on the role of guests or hosts, enabling them to either book properties or list their own.
+
+Property Management
+Hosts can list properties by providing details such as title, location, price, and description. They can also update or delete their listings as needed.
+
+Booking System
+Enables guests to book available properties for specific dates. The system checks for availability, prevents double bookings, and stores booking records for both guests and hosts.
+
+Review System
+After a stay, guests can leave a rating and review for the property. Reviews help maintain trust and transparency between users on the platform.
+
+Payment Integration
+Processes payments securely for bookings. Tracks payment status and ensures that hosts receive funds after successful bookings.
+
+Search and Filtering
+Users can search for properties based on criteria such as location, price range, and availability. This helps users find suitable accommodations quickly and efficiently.
+
+
+
+CI/CD Pipeline
+What is CI/CD?
+CI/CD stands for Continuous Integration and Continuous Deployment/Delivery. It is a set of practices that automate the process of testing, building, and deploying code changes. CI ensures that every code change is automatically tested and integrated into the main codebase, while CD automates the release of that code to production or staging environments.
+
+Why It’s Important
+Implementing CI/CD pipelines helps improve code quality, reduce bugs, and accelerate development cycles. It ensures that new features, fixes, or updates are delivered quickly and reliably without manual intervention, making the development process more efficient and error-resistant.
+
+Tools Used
+GitHub Actions: Automates testing, linting, and deployment workflows directly from the GitHub repository.
+
+Docker: Ensures consistent environments across development, testing, and production by containerizing the application.
+
+Heroku / AWS / Render (Optional): Platforms that can be integrated for automated deployment after successful builds.
