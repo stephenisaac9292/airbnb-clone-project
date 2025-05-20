@@ -34,3 +34,74 @@ Core frontend technologies used to structure, style, and add interactivity to th
 Docker
 A containerization tool used to package the application and its dependencies, making it easy to deploy and run the app consistently across different environments.
 
+
+
+Database Design
+Key Entities and Fields
+1. User
+id: Unique identifier for the user
+
+name: Full name of the user
+
+email: Email address (used for login)
+
+password: Hashed password
+
+role: Defines if the user is a host or a guest
+
+2. Property
+id: Unique identifier for the property
+
+user_id: References the owner (host)
+
+title: Name/title of the property
+
+location: Address or city where the property is located
+
+price_per_night: Cost to book per night
+
+3. Booking
+id: Unique identifier for the booking
+
+user_id: References the guest making the booking
+
+property_id: References the booked property
+
+start_date: Start date of the booking
+
+end_date: End date of the booking
+
+4. Review
+id: Unique identifier for the review
+
+user_id: Reviewer (guest)
+
+property_id: Property being reviewed
+
+rating: Numeric rating (e.g., 1 to 5)
+
+comment: Optional written feedback
+
+5. Payment
+id: Unique identifier for the payment
+
+booking_id: Booking this payment is for
+
+amount: Total amount paid
+
+payment_date: Date when payment was made
+
+status: Status (e.g., pending, completed)
+
+Entity Relationships
+A User can own multiple Properties (1-to-many).
+
+A User (as a guest) can make multiple Bookings.
+
+A Property can have multiple Bookings.
+
+A Booking is linked to one Property and one User.
+
+A Review belongs to a User and a Property.
+
+A Payment is associated with one Booking.
