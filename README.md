@@ -1,143 +1,139 @@
-# airbnb-clone-project
-Team Roles
-Backend Developer
-Responsible for designing, implementing, and maintaining the server-side logic of the application. They develop APIs, manage the integration of data storage and retrieval, and ensure the backend performs efficiently and securely.
+# Airbnb Clone - Backend Documentation
 
-Database Administrator (DBA)
-Manages the database systems used in the project. This includes designing database schemas, optimizing queries, ensuring data integrity, performing backups, and managing access controls.
+## Project Overview
 
-Frontend Developer
-Focuses on the user interface and user experience by building responsive and interactive web pages. They implement designs and ensure the frontend communicates seamlessly with the backend.
+This project is a backend implementation of an Airbnb-like system that allows users to register, list properties, make bookings, leave reviews, and manage payments. The goal is to create a robust, secure, and scalable backend system with a well-structured database and continuous deployment pipeline.
 
-Project Manager
-Oversees the project timeline, resources, and communication. Ensures the project meets its goals by coordinating between team members, managing deadlines, and resolving any roadblocks.
+---
 
-Quality Assurance (QA) Engineer
-Responsible for testing the software to identify bugs, verify functionality, and ensure the final product meets quality standards. They create test plans, perform manual and automated testing, and report issues to the development team.
+## Team Roles
 
-DevOps Engineer
-Handles the deployment, monitoring, and infrastructure automation of the project. They set up continuous integration and delivery pipelines, manage cloud resources, and ensure system reliability and scalability.
+- **Backend Developer**  
+  Responsible for building RESTful APIs, implementing business logic, and integrating third-party services.
 
-Technology Stack
-Django
-A high-level Python web framework used to build robust, scalable web applications. In this project, Django is used to develop the backend and expose RESTful or GraphQL APIs.
+- **Database Administrator (DBA)**  
+  Manages database structure, ensures data integrity, handles migrations, and optimizes performance.
 
-PostgreSQL
-A powerful, open-source relational database system used to store and manage structured project data with high reliability and performance.
+- **DevOps Engineer**  
+  Sets up CI/CD pipelines, manages deployment infrastructure, and ensures system reliability.
 
-GraphQL
-A query language for APIs that allows the client to request exactly the data it needs. Used in this project to optimize data fetching and reduce over-fetching of data.
+- **Project Manager**  
+  Coordinates tasks, monitors progress, manages communication among team members, and ensures timely delivery.
 
-HTML/CSS/JavaScript
-Core frontend technologies used to structure, style, and add interactivity to the user interface of the web application.
+- **Quality Assurance (QA) Engineer**  
+  Tests application functionality, writes automated tests, and ensures that all features work as expected.
 
-Docker
-A containerization tool used to package the application and its dependencies, making it easy to deploy and run the app consistently across different environments.
+---
 
+## Technology Stack
 
+- **Django**: A Python web framework used to build RESTful APIs and manage backend logic.
+- **PostgreSQL**: A powerful relational database used to store and manage structured data.
+- **GraphQL**: A query language for APIs that allows clients to request exactly the data they need.
+- **Docker**: Used to containerize the application for consistent development and deployment environments.
+- **GitHub Actions**: Provides automated workflows for testing and deploying code changes.
 
-Database Design
-Key Entities and Fields
-1. User
-id: Unique identifier for the user
+Each technology has been chosen for its stability, scalability, and ability to integrate well within a microservice-like architecture.
 
-name: Full name of the user
+---
 
-email: Email address (used for login)
+## Database Design
 
-password: Hashed password
+### Entities and Fields
 
-role: Defines if the user is a host or a guest
+- **Users**
+  - `user_id` (UUID)
+  - `email` (string)
+  - `password` (hashed string)
+  - `full_name` (string)
+  - `date_joined` (datetime)
 
-2. Property
-id: Unique identifier for the property
+- **Properties**
+  - `property_id` (UUID)
+  - `user_id` (foreign key to Users)
+  - `title` (string)
+  - `description` (text)
+  - `location` (string)
 
-user_id: References the owner (host)
+- **Bookings**
+  - `booking_id` (UUID)
+  - `user_id` (foreign key to Users)
+  - `property_id` (foreign key to Properties)
+  - `start_date` (date)
+  - `end_date` (date)
 
-title: Name/title of the property
+- **Reviews**
+  - `review_id` (UUID)
+  - `user_id` (foreign key to Users)
+  - `property_id` (foreign key to Properties)
+  - `rating` (integer)
+  - `comment` (text)
 
-location: Address or city where the property is located
+- **Payments**
+  - `payment_id` (UUID)
+  - `user_id` (foreign key to Users)
+  - `booking_id` (foreign key to Bookings)
+  - `amount` (decimal)
+  - `status` (string)
 
-price_per_night: Cost to book per night
+### Relationships
 
-3. Booking
-id: Unique identifier for the booking
+- A **User** can create multiple **Properties**.
+- A **User** can make multiple **Bookings**.
+- A **Booking** is tied to one **Property** and one **User**.
+- A **Review** is left by a **User** for a **Property**.
+- A **Payment** is associated with a **Booking** and **User**.
 
-user_id: References the guest making the booking
+The database structure is normalized, scalable, and optimized for relational queries.
 
-property_id: References the booked property
+---
 
-start_date: Start date of the booking
+## Feature Breakdown
 
-end_date: End date of the booking
+- **User Management**  
+  Users can register, log in, manage their profiles, and reset passwords securely.
 
-4. Review
-id: Unique identifier for the review
+- **Property Management**  
+  Users can list properties, edit details, and upload property information.
 
-user_id: Reviewer (guest)
+- **Booking System**  
+  Users can check availability and make bookings for specific dates.
 
-property_id: Property being reviewed
+- **Review System**  
+  After a stay, users can leave ratings and reviews for listed properties.
 
-rating: Numeric rating (e.g., 1 to 5)
+- **Payment Processing**  
+  Integrates secure payment gateways to process and track transactions.
 
-comment: Optional written feedback
+---
 
-5. Payment
-id: Unique identifier for the payment
+## API Security
 
-booking_id: Booking this payment is for
+To protect the backend APIs, the following security measures are implemented:
 
-amount: Total amount paid
+- **Authentication**  
+  Ensures only registered users can access protected resources using JWT tokens.
 
-payment_date: Date when payment was made
+- **Authorization**  
+  Controls user access levels (e.g., only owners can edit their own properties).
 
-status: Status (e.g., pending, completed)
+- **Rate Limiting**  
+  Prevents abuse by limiting the number of requests a user can make in a given time frame.
 
-Entity Relationships
-A User can own multiple Properties (1-to-many).
+Security is essential to protect sensitive user data, prevent unauthorized access, and ensure financial transactions are secure.
 
-A User (as a guest) can make multiple Bookings.
+---
 
-A Property can have multiple Bookings.
+## CI/CD Pipeline
 
-A Booking is linked to one Property and one User.
+**CI/CD (Continuous Integration/Continuous Deployment)** automates the process of testing, building, and deploying the application.
 
-A Review belongs to a User and a Property.
+- **Continuous Integration** ensures that code changes are automatically tested and merged safely.
+- **Continuous Deployment** allows automatic deployment of updates with minimal downtime.
 
-A Payment is associated with one Booking.
+### Tools Used
 
+- **GitHub Actions**: Automates workflows like testing and deployment on push or pull request.
+- **Docker**: Ensures the app runs the same way across all environments.
 
-Feature Breakdown
-User Management
-Allows users to register, log in, and manage their profiles. Users can take on the role of guests or hosts, enabling them to either book properties or list their own.
-
-Property Management
-Hosts can list properties by providing details such as title, location, price, and description. They can also update or delete their listings as needed.
-
-Booking System
-Enables guests to book available properties for specific dates. The system checks for availability, prevents double bookings, and stores booking records for both guests and hosts.
-
-Review System
-After a stay, guests can leave a rating and review for the property. Reviews help maintain trust and transparency between users on the platform.
-
-Payment Integration
-Processes payments securely for bookings. Tracks payment status and ensures that hosts receive funds after successful bookings.
-
-Search and Filtering
-Users can search for properties based on criteria such as location, price range, and availability. This helps users find suitable accommodations quickly and efficiently.
-
-
-
-CI/CD Pipeline
-What is CI/CD?
-CI/CD stands for Continuous Integration and Continuous Deployment/Delivery. It is a set of practices that automate the process of testing, building, and deploying code changes. CI ensures that every code change is automatically tested and integrated into the main codebase, while CD automates the release of that code to production or staging environments.
-
-Why It’s Important
-Implementing CI/CD pipelines helps improve code quality, reduce bugs, and accelerate development cycles. It ensures that new features, fixes, or updates are delivered quickly and reliably without manual intervention, making the development process more efficient and error-resistant.
-
-Tools Used
-GitHub Actions: Automates testing, linting, and deployment workflows directly from the GitHub repository.
-
-Docker: Ensures consistent environments across development, testing, and production by containerizing the application.
-
-Heroku / AWS / Render (Optional): Platforms that can be integrated for automated deployment after successful builds.
+This setup speeds up development, reduces bugs, and ensures a smoother deployment cycle.
